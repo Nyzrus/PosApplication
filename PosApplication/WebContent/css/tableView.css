@@ -1,0 +1,37 @@
+
+#floor{
+	
+	height: 90vh;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.row1{
+	padding-bottom: 50px;
+	padding-top: 25px;
+}
+
+
+.tableButton{
+	background-color: #fff;
+	color: #0a0a0a;
+	border: solid;
+	padding: 25px;
+	height: 100px;
+	width: 100px;
+}
+
+.tableButton:hover{
+	background-color: #acacac;
+	border: none;
+}
+
+#optionsMenu{
+	width: 100vh;
+	height: 10vh;
+}
+
+.menuButton{
+	background-color: #a8b1a8;
+	border: none;
+}
