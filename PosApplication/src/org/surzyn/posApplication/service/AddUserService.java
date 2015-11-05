@@ -8,6 +8,10 @@ public class AddUserService {
 
 DatabaseAccess db = new DatabaseAccess();
 	
+	//First, trim's parameter strings and checks for empty input
+	//Returns false if formCheck invalidates input
+	//Returns true if formCheck validates user input
+	//Called by AddUserServlet in the servlet package
 	public boolean formCheck(String username, String firstName, 
 							String lastName, String password){
 		if((password==null || password.trim()=="") || (firstName==null || firstName.trim()=="")||
@@ -27,7 +31,7 @@ DatabaseAccess db = new DatabaseAccess();
 		
 		
 	}
-	
+	//calls DatabaseAccess.addUser() to add user to database
 	public void addUser(UserDTO user1){
 		db.addUser(user1);
 	}

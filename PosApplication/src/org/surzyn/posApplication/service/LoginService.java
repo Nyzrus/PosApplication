@@ -5,8 +5,7 @@ import org.surzyn.posApplication.database.DatabaseAccess;
 public class LoginService {
 
 		DatabaseAccess db = new DatabaseAccess();
-	
-	//should be the database
+
 		public LoginService(){
 		}
 		

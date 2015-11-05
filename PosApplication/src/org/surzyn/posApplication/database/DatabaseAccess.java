@@ -12,6 +12,15 @@ import org.surzyn.posApplication.dto.FoodDTO;
 import org.surzyn.posApplication.dto.OrderDTO;
 import org.surzyn.posApplication.dto.UserDTO;
 
+/*
+ * All database actions in the application are run through the DatabaseAccess class.
+ * 
+ * SessionFactory creation is expensive, so I use a static SessionFactory variable for maximal scope
+ * reference. Individual methods use individual methods, which are less expensive, coupled
+ * with proper exception-handling techniques and data rollback measures to preserve data in
+ * database.
+ * 
+ */
 
 
 public class DatabaseAccess {
@@ -19,9 +28,14 @@ public class DatabaseAccess {
 	private static SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 	
 	public DatabaseAccess(){
-		 
+	
 	}
 	
+	public void initializeDatabase(){
+	}
+	
+	//Checks database for duplicate Users
+	//Called from AddUserServlet -> AddUserService.formCheck()
 	public boolean checkDuplicateUser(String username){
 		Session session = sessionFactory.openSession();
 		try{
@@ -42,6 +56,8 @@ public class DatabaseAccess {
 		
 	}
 	
+	//adds user to USER_TABLE for login purposes
+	//called by AddUserServlet.class -> LoginService.addUser() -> DatabaseAccess.addUser() 
 	public Integer addUser(UserDTO user1){
 		Session session = sessionFactory.openSession();
 		Integer userId = null;
@@ -58,6 +74,7 @@ public class DatabaseAccess {
 		return userId;
 	}
 	
+	//returns UserDTO object by username
 	public UserDTO getUser(String username){
 		Session session = sessionFactory.openSession();
 		
@@ -77,6 +94,8 @@ public class DatabaseAccess {
 		return null;
 	}
 	
+	//checks if provided username and password from login.jsp corresponds to user in database
+	//called from LoginServlet -> LoginService.authenticate() -> DatabaseAccess.userInfoAuthenticate()
 	public boolean userInfoAuthenticate(String username, String password){
 		Session session = sessionFactory.openSession();
 		
@@ -106,6 +125,7 @@ public class DatabaseAccess {
 		
 	}
 	
+	//adds an OrderDTO object to the database
 	public void addOrder(OrderDTO order1){
 		Session session = sessionFactory.openSession();
 		try{
@@ -120,6 +140,7 @@ public class DatabaseAccess {
 		}
 	}
 	
+	//returns all orders from all tables
 	public List<FoodDTO> getAllOrders(){
 		Session session = sessionFactory.openSession();
 		try{
@@ -140,6 +161,7 @@ public class DatabaseAccess {
 		
 	}
 	
+	//returns all orders from specific table
 	public List<FoodDTO> getOrdersByTable(int tableNumber){
 		Session session = sessionFactory.openSession();
 		try{
@@ -158,6 +180,7 @@ public class DatabaseAccess {
 		return null;
 	}
 	
+	//deletes all orders from specific table
 	public void deleteAllFromTable(int tableNumber){
 		Session session = sessionFactory.openSession();
 		try{
@@ -173,6 +196,7 @@ public class DatabaseAccess {
 		}
 	}
 	
+	//updates table according to Save Changes button from tableOrder.jsp
 	public void updateTable(OrderDTO order1, int tableNumber){
 		Session session = sessionFactory.openSession();
 		for(int i = 0; i < order1.getFoodList().toArray().length;i++){

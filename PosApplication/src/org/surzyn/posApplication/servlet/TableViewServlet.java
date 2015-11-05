@@ -25,8 +25,18 @@ import org.surzyn.posApplication.service.OrderService;
 public class TableViewServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	/*
+	 * tableView.jsp contains several buttons with different values which specify operations
+	 * to be performed in the TableViewServlet.
+	 * 
+	 * Operation selection is performed by a switch statement which specifies
+	 * action according to the value of the chosen button.
+	 * 
+	 * If specific tables are chosen, the database is queried for existing orders corresponding
+	 * to that table so the information can be passed to tableOrder.jsp for display.
+	 * 
+	 * Other buttons include the ability to view all orders on a single page or to logout
+	 * 
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String buttonChosen = request.getParameter("table");
@@ -37,24 +47,20 @@ public class TableViewServlet extends HttpServlet {
 				request.getSession().setAttribute("tableSpecificOrder", getOrdersForTable(1));
 				request.getSession().setAttribute("tableNumber", "1");
 				dispatcher.forward(request, response);
-				//response.sendRedirect("tableOrder.jsp");
 				break;
 			case "Table 2":  
 				request.getSession().setAttribute("tableSpecificOrder", getOrdersForTable(2));
 				request.getSession().setAttribute("tableNumber", "2");
 				dispatcher.forward(request, response);
-				//response.sendRedirect("tableOrder.jsp");
 				break;
 			case "Table 3":  
 				request.getSession().setAttribute("tableSpecificOrder", getOrdersForTable(3));
 				request.getSession().setAttribute("tableNumber", "3");
 				dispatcher.forward(request, response);
-				//response.sendRedirect("tableOrder.jsp");
 			case "Table 4":
 				request.getSession().setAttribute("tableSpecificOrder", getOrdersForTable(4));
 				request.getSession().setAttribute("tableNumber", "4");
 				dispatcher.forward(request, response);
-				//response.sendRedirect("tableOrder.jsp");
 			case "View All Orders":  
 				printOrderTable(response);
 				break;
@@ -69,20 +75,29 @@ public class TableViewServlet extends HttpServlet {
 				break;
 		}
 	}
-	
+	/*
+	 * Though there is a degree of processing in this method, I kept it in the Servlet(View)
+	 * layer because it prints to the View
+	 * 
+	 */
 	public void printOrderTable(HttpServletResponse response) throws IOException{
 		OrderService os = new OrderService();
 		
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		out.print("Orders by table number");
-		List<FoodDTO> tableList = os.getOrdersByTableNumber(2);
-		for(int i = 0; i < tableList.size();i++){
-			System.out.println(tableList.get(i).getFoodName());
-			out.println(tableList.get(i).getFoodName() + " at Table " + tableList.get(i).getTableNumber());
-			out.println("<br>");
+		out.print("<b>Orders by table number</b><br><br>");
+		List<FoodDTO> tableList = os.getAllOrders();
+		for(int i = 1; i < 5;i++){
+			out.println("Orders at table "+ i);
+			out.println("<br><ul>");
+			for(int j = 0; j < tableList.size(); j ++){
+				if(tableList.get(j).getTableNumber()==i){
+					out.println("<li>"+tableList.get(j).getFoodName()+"</li>");
+				}
+			
+			}
+			out.print("</ul><br>");
 		}
-		out.print("<center><table>");
 		
 	}
 	

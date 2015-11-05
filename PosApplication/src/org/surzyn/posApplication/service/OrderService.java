@@ -1,6 +1,5 @@
 package org.surzyn.posApplication.service;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -9,7 +8,16 @@ import org.surzyn.posApplication.database.DatabaseAccess;
 import org.surzyn.posApplication.dto.FoodDTO;
 import org.surzyn.posApplication.dto.OrderDTO;
 
-
+/*
+ * The OrderService class is used as a buffer between the View and Database classes
+ * to treat the data as necessary to make it fit for insertion or querying into the database.
+ * 
+ * In the case of getting orders/deleting orders, little action is required in this layer.
+ * 
+ * In the other case of adding information into the database, the input information
+ * must be treated before being passed to the DatabaseAccess class
+ * 
+ */
 
 public class OrderService {
 
@@ -49,6 +57,10 @@ DatabaseAccess db = new DatabaseAccess();
 		db.deleteAllFromTable(tableNumber);
 	}
 	
+	/*
+	 * updateTable() has the same responsibility of parsing the data as addOrder, but
+	 * calls db.updateTable() with an added parameter
+	 */
 	public void updateTable(String orderString, int tableNumber){
 		OrderDTO order = new OrderDTO();
 		order.setServerName("airen");

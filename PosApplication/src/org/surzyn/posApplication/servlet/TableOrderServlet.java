@@ -24,13 +24,12 @@ public class TableOrderServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String orderString = request.getParameter("hiddenJSValue");
-		System.out.println(orderString);
 		String opString = request.getParameter("hiddenReturnValue");
-		
+		System.out.println(opString);
 		int tableNumber = Integer.valueOf(request.getParameter("hiddenTableValue"));
 		
 		OrderService os = new OrderService();
-		if(opString.equals("delete")){
+		if(opString.equals("clear")){
 			os.deleteAllFromTable(tableNumber);
 		}
 		if(opString.equals("update")){
@@ -41,8 +40,6 @@ public class TableOrderServlet extends HttpServlet {
 		}else{
 		}
 		response.sendRedirect("tableView.jsp");
-		
-		
 		
 	}
 
