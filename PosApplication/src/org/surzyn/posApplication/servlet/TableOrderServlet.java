@@ -11,8 +11,17 @@ import javax.servlet.http.HttpServletResponse;
 import org.surzyn.posApplication.service.OrderService;
 
 
-/**
- * Servlet implementation class TableOrderServlet
+/*
+ * 
+ * This Servlet corresponds to the TableOrder JSP page
+ * 
+ * Values are collected from the hidden HTML elements on the TableOrder JSP which include:
+ * - An orderString that contains any items needed to be added to the DB
+ * - An opCode that designates the operation for the servlet to perform
+ * - A tableNumber that tells the servlet for which to perform the operations
+ * 
+ * In any case, the Servlet redirects the application to the TableView JSP
+ * 
  */
 @WebServlet("/tableOrder")
 public class TableOrderServlet extends HttpServlet {
